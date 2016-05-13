@@ -17,7 +17,7 @@ void printa_mapa(int lines, int columns, char **frame)
      ///Printa mapa com cobra no lugar inicial
     for(i=0; i<lines; i++)                                       /* Printar o resultado inicial de como fica a matriz mapa */
     {   for(j=0; j<columns; j++)
-            printf("%c ", frame[i][j]);                                /* INICIO COBRA  INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA*/
+/* >>>>>>>>>>>*/printf("%c ", frame[i][j]);    //<<<<<<<<<<<<<                            /* INICIO COBRA  INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA*/
         printf("\n");
     }
 
