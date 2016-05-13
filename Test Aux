@@ -30,7 +30,7 @@ void mapa_fase1(void)
 {
     char matriz[NLinhasMax][NColunasMax];
     int linha, coluna, i;
-    int *ponteiro;
+    char *ponteiro;
     ponteiro = &matriz[0][0];
 
     ///Cria a matriz do mapa do snake
