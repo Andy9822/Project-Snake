@@ -1,0 +1,152 @@
+//Pseudo-jogo de snake
+//Se insere onde está a "cobra" (posiçao da boca e 4 partes da cauda) e se inserem 3 movimentos que a cobra ira realizar
+//podendo ir pra cima, pra baixo, pra direita ou pra esquerda.
+#include <ctype.h>
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <locale.h>
+#define NLinhasMax 10
+#define NColunasMax 10
+int main()
+{
+    setlocale(LC_ALL,"portuguese");
+
+    char matriz[NLinhasMax][NColunasMax], movimento, possivelmovimento;
+    int linha, coluna, x, y, j, i;
+    int posicao[2][5] = {{3,2,1,1,1},{3,3,3,2,1}};
+
+
+    ///Cria a matriz do mapa do snake
+    for(linha=0; linha<NLinhasMax; linha++)                                 /* Deixar a matriz que seria a tabela com as bordas definidas por # e o interior como "nada", ou espaço realmente */
+    {  for(coluna=0; coluna<NColunasMax; coluna++)
+         {   if (linha==0 || linha==(NLinhasMax - 1)
+                 || coluna==0 || coluna==(NColunasMax - 1))                 /*Se for a primeira ou a ultima linha, preenche tudo com #. Se for a primeira ou a ultima coluna, também. Resto "espaço" */
+                matriz[linha][coluna] = '#';
+             else
+                matriz[linha][coluna] =' ' ;                                /* TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA */
+        }
+    }
+            /* else if ((linha==3 && coluna==2)
+                      ||(linha==3 && coluna==1)
+                      ||(linha==2 && coluna==1)
+                      ||linha==1 && coluna==1)
+                linha==3 && coluna==3 */
+
+    ///Coloca posiçoes cobra na matriz mapa
+    for(i=0;i<5;i++)
+    {  if (i==0)
+            matriz[posicao[1][i]][posicao[0][i]] = '@';             /* Iguala as posiçoes x e y de cada posiçao do corpo da cobra à variavel/lugar correspondente na matriz */
+       else
+            matriz[posicao[1][i]][posicao[0][i]] = '*';             /* Array posiçao as coluna representam os pares ordenados: em tal coluna, a linha 0 e a 1 sao o x e o y correspondente*/
+    }
+
+    ///Printa mapa com cobra no lugar inicial
+    for(linha=0; linha<NLinhasMax; linha++)                                       /* Printar o resultado inicial de como fica a matriz mapa */
+    {
+        for(coluna=0; coluna<NColunasMax; coluna++)
+            printf("%c ", matriz[linha][coluna] );                                /* INICIO COBRA  INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA*/
+        printf("\n");
+    }
+
+     ///Cauda da cobra some porque ela mudou de posiçao              Ultima parte do corpo assumiu a proxima posiçao, precisa apagar rastro na matriz mapa
+            matriz[posicao[1][4]][posicao[0][4]] = ' ';
+
+     ///Snake começa indo pra direita                                  COMEÇA INDO PRA DIREITA  COMEÇA INDO PRA DIREITA COMEÇA INDO PRA DIREITA COMEÇA INDO PRA DIREITA COMEÇA INDO PRA DIREITA
+     movimento = 'D' ;
+
+     ///Enquanto nao digitar nada x, segue se mexendo
+     while(possivelmovimento!='X')
+     { ///Enquanto nao digita nada, segue mesma direção
+        while(!kbhit())                                                /* ENQUANTO NAO DIGITA NADA MESMA LETRA/MOVIMENTO    ENQUANTO NAO DIGITA NADA MESMA LETRA/MOVIMENTO  */
+        {  ///Atualiza partes da cobra
+            for(j=4;j>0;j--)
+            {   posicao[0][j] = posicao[0][j-1];                         /* Troca o valor de X da posicao tal, com o da anterior à dela */
+                posicao[1][j] = posicao[1][j-1];                         /* Troca o valor de Y da posicao tal, com o valor y da posicao anterior*/
+            }
+            switch (movimento)                                           /*Ve qual foi o movimento daquela vez (1a 2a ou 3a) */
+            {   ///Atualiza cabeça cobra
+                case 'A' :
+                case 37 :
+                    posicao[0][0] =  posicao[0][0] - 1;                      /* Se inserir A vai pra esquerda, logo diminui 1 do valor X */
+                    break;
+                case 'S' :
+                case 40 :
+                    posicao[1][0] = posicao[1][0] + 1;                       /* Se inserir S vai para baixo, logo aumenta 1 o valor de y pois pra baixo é 1 valor a mais da matriz */
+                    break;
+                case 'D' :
+                case 39 :
+                    posicao[0][0] = posicao[0][0] + 1;                       /* Se inserir D vai pra direita, logo aumenta 1 do valor X */
+                    break;
+                case 'W' :
+                case 38 :
+                    posicao[1][0] = posicao[1][0] - 1;                       /* Se inserir W vai para cima, logo diminui 1 o valor de y pois pra cima é 1 valor a menos da matriz */
+                    break;
+            }
+
+            ///Coloca posiçoes cobra na matriz mapa
+            for(i=0;i<5;i++)
+            {  if (i==0)
+                   matriz[posicao[1][i]][posicao[0][i]] = '@';             /* Iguala as posiçoes x e y de cada posiçao do corpo da cobra à variavel/lugar correspondente na matriz */
+               else
+                   matriz[posicao[1][i]][posicao[0][i]] = '*';             /* Array posiçao as coluna representam os pares ordenados: em tal coluna, a linha 0 e a 1 sao o x e o y correspondente*/
+            }
+
+            ///Limpa screen
+            system("cls");                                                 /*LIMPA TABELA ANTIGA PRO PROX MOVIMENTO    LIMPA TABELA ANTIGA PRO PROX MOVIMENTO    */
+            printf("\n");
+
+            ///Printa cobra no lugar da vez no mapa
+            for(linha=0; linha<NLinhasMax; linha++)                        /* Printa o resultado final de como ficaria a matriz */
+            {   for(coluna=0; coluna<NColunasMax; coluna++)
+                 printf("%c ", matriz[linha][coluna] );                     /*MOVIMENTO COBRA TABELA MOVIMENTO COBRA TABELA MOVIMENTO COBRA TABELA MOVIMENTO COBRA TABELA MOVIMENTO COBRA TABELA */
+             printf("\n");
+            }
+
+            ///Cauda da cobra some porque ela mudou de posiçao              Ultima parte do corpo assumiu a proxima posiçao, precisa apagar rastro na matriz mapa
+            matriz[posicao[1][4]][posicao[0][4]] = ' ';
+
+           ///500MS pra se mexer, senao novo loop com mesma direçao
+           Sleep(500);                                                    /*MEXE LOGO OU MORRE MEXE LOGO OU MORRE MEXE LOGO OU MORRE MEXE LOGO OU MORRE MEXE LOGO OU MORRE MEXE LOGO OU MORRE */
+       }
+                                                                       /*ATE AQUI SE NAO DIGITAR NADA ATE AQUI SE NAO DIGITAR NADA ATE AQUI SE NAO DIGITAR NADA ATE AQUI SE NAO DIGITAR NADA  */
+  /* ///Se for setas, correspondente letra
+     if(GetKeyState (VK_UP) & 0x80)
+        movimento = 'W';
+     else if(GetKeyState (VK_LEFT) & 0x80)
+        movimento = 'A';
+     else if(GetKeyState (VK_DOWN) & 0x80)
+        movimento = 'S';
+     else if (GetKeyState (VK_RIGHT) & 0x80)
+        movimento = 'D';*/
+
+     ///Se a letra for seta, troca pelo wasd correspondente
+     possivelmovimento = toupper(getch());                             /* PEGA LETRA MOVIMENTO  PEGA LETRA MOVIMENTO  PEGA LETRA MOVIMENTO  PEGA LETRA MOVIMENTO  PEGA LETRA MOVIMENTO */
+     if(possivelmovimento == -32)
+        possivelmovimento =getch();
+        switch(possivelmovimento)
+        { case 75 :
+            possivelmovimento = 'A';
+            break;
+          case 72 :
+            possivelmovimento = 'W';
+            break;
+         case 77:
+            possivelmovimento = 'D';
+            break;
+          case 80 :
+            possivelmovimento = 'S';
+            break;
+        }
+
+     ///So entende que é novo movimento se for alguma das telas WASD
+     if (possivelmovimento=='A'||possivelmovimento=='S'||possivelmovimento=='D'||possivelmovimento=='W') /*SO ACEITA MUDAR SE FOR WASD SO ACEITA MUDAR SE FOR WASD  */
+          movimento = possivelmovimento;
+
+        printf("\n");
+    }
+
+    printf("\n\n\n   FALOU, ABRAÇO!     \n\n\n");
+    return 0;
+}
