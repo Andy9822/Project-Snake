@@ -1,0 +1,55 @@
+//Pseudo-jogo de snake
+//Se insere onde está a "cobra" (posiçao da boca e 4 partes da cauda) e se inserem 3 movimentos que a cobra ira realizar
+//podendo ir pra cima, pra baixo, pra direita ou pra esquerda.
+#include <ctype.h>
+#include <stdio.h>
+#include <conio.h>
+#include <stdlib.h>
+#include <windows.h>
+#include <locale.h>
+#define NLinhasMax 10
+#define NColunasMax 10
+
+void printa_mapa(int lines, int columns, char **frame)
+{
+    int i, j;
+
+     ///Printa mapa com cobra no lugar inicial
+    for(i=0; i<lines; i++)                                       /* Printar o resultado inicial de como fica a matriz mapa */
+    {   for(j=0; j<columns; j++)
+            printf("%c ", frame[i][j]);                                /* INICIO COBRA  INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA*/
+        printf("\n");
+    }
+
+
+
+
+}
+
+void mapa_fase1(void)
+{
+    char matriz[NLinhasMax][NColunasMax];
+    int linha, coluna, i;
+    int *ponteiro;
+    ponteiro = &matriz[0][0];
+
+    ///Cria a matriz do mapa do snake
+    for(linha=0; linha<NLinhasMax; linha++)                                 /* Deixar a matriz que seria a tabela com as bordas definidas por # e o interior como "nada", ou espaço realmente */
+    {  for(coluna=0; coluna<NColunasMax; coluna++)
+         {   if (linha==0 || linha==(NLinhasMax - 1)
+                 || coluna==0 || coluna==(NColunasMax - 1))                 /*Se for a primeira ou a ultima linha, preenche tudo com #. Se for a primeira ou a ultima coluna, também. Resto "espaço" */
+                matriz[linha][coluna] = '#';
+             else
+                matriz[linha][coluna] =' ' ;                                /* TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA */
+         }
+    }
+
+    printa_mapa(NLinhasMax,NColunasMax,ponteiro);
+
+ }
+ int main()
+ {
+   mapa_fase1();
+
+   return 0;
+ }
