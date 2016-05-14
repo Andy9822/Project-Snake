@@ -20,8 +20,6 @@ void printa_mapa(int lines, int columns, char** momento)
         printf("\n");
       }
 
-
-
 }
 
 void mapa_fase1(void)
@@ -45,6 +43,7 @@ void mapa_fase1(void)
     printa_mapa(NLinhasMax,NColunasMax,ponteiro);
 
  }
+
  int main()
  {
    mapa_fase1();
