@@ -42,20 +42,6 @@ void mapa_fase1(void)
          }
     }
 
- ///Printa mapa com cobra no lugar inicial
-    for(i=0; i<NLinhasMax; i++)                                       /* Printar o resultado inicial de como fica a matriz mapa */
-    {   for(j=0; j<NColunasMax; j++)
-            printf("%c ", matriz[i][j]);                                /* INICIO COBRA  INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA*/
-        printf("\n");
-    }
-
-
-
-
-printf("\n%d \n", ponteiro);
-printf("fimteste\n");
-    //printf("%c", *(ponteiro+0+0));printf("%c", *(ponteiro+0+1));printf("%c", *(ponteiro+0+2));printf("%c", *(ponteiro+0+3));printf("%c", *(ponteiro+0+4));printf("%c", *(ponteiro+0+5));
-    //printf("\n\n");
     printa_mapa(NLinhasMax,NColunasMax,ponteiro);
 
  }
