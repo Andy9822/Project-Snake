@@ -10,23 +10,22 @@
 #define NLinhasMax 10
 #define NColunasMax 10
 
-void printa_mapa(int lines, int columns, char** momento)
+void printa_mapa(int lines, int columns, char momento[NLinhasMax][NColunasMax])
 {
     int i, j;
 
      for(i=0;i<lines;i++)
       { for(j=0;j<columns;j++)
-        printf("%d ", momento[i][j]);
+        printf("%c ", momento[i][j]);
         printf("\n");
       }
-
 }
 
 void mapa_fase1(void)
 {
     char matriz[NLinhasMax][NColunasMax];
     int linha, coluna, i,j;
-    char *ponteiro;
+    char **ponteiro;
     ponteiro = &matriz[0][0];
 
     ///Cria a matriz do mapa do snake
@@ -39,6 +38,16 @@ void mapa_fase1(void)
                 matriz[linha][coluna] =' ' ;                                /* TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA TABELA */
          }
     }
+
+    printa_mapa(NLinhasMax,NColunasMax,matriz);
+
+ }
+ int main()
+ {
+   mapa_fase1();
+
+   return 0;
+ }
 
     printa_mapa(NLinhasMax,NColunasMax,ponteiro);
 
