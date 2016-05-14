@@ -10,17 +10,15 @@
 #define NLinhasMax 10
 #define NColunasMax 10
 
-void printa_mapa(int lines, int columns, char **frame)
+void printa_mapa(int lines, int columns, char** momento)
 {
     int i, j;
 
-     ///Printa mapa com cobra no lugar inicial
-    for(i=0; i<lines; i++)                                       /* Printar o resultado inicial de como fica a matriz mapa */
-    {   for(j=0; j<columns; j++)
-/* >>>>>>>>>>>*/printf("%c ", frame[i][j]);    //<<<<<<<<<<<<<                            /* INICIO COBRA  INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA*/
+     for(i=0;i<lines;i++)
+      { for(j=0;j<columns;j++)
+        printf("%d ", momento[i][j]);
         printf("\n");
-    }
-
+      }
 
 
 
@@ -29,8 +27,8 @@ void printa_mapa(int lines, int columns, char **frame)
 void mapa_fase1(void)
 {
     char matriz[NLinhasMax][NColunasMax];
-    int linha, coluna, i;
-    char *ponteiro;
+    int linha, coluna, i,j;
+    char **ponteiro;
     ponteiro = &matriz[0][0];
 
     ///Cria a matriz do mapa do snake
@@ -44,6 +42,20 @@ void mapa_fase1(void)
          }
     }
 
+ ///Printa mapa com cobra no lugar inicial
+    for(i=0; i<NLinhasMax; i++)                                       /* Printar o resultado inicial de como fica a matriz mapa */
+    {   for(j=0; j<NColunasMax; j++)
+            printf("%c ", matriz[i][j]);                                /* INICIO COBRA  INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA INICIO COBRA*/
+        printf("\n");
+    }
+
+
+
+
+printf("\n%d \n", ponteiro);
+printf("fimteste\n");
+    //printf("%c", *(ponteiro+0+0));printf("%c", *(ponteiro+0+1));printf("%c", *(ponteiro+0+2));printf("%c", *(ponteiro+0+3));printf("%c", *(ponteiro+0+4));printf("%c", *(ponteiro+0+5));
+    //printf("\n\n");
     printa_mapa(NLinhasMax,NColunasMax,ponteiro);
 
  }
