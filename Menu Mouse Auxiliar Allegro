@@ -1,0 +1,89 @@
+#include <allegro.h>
+#include <unistd.h>
+volatile int sair_do_programa;
+void fecha_programa(){
+  sair_do_programa = 1;}
+//END_OF_FUNCTION(fecha_programa)
+//LOCK_FUNCTION(fecha_programa);
+//LOCK_VARIABLE(sair_do_programa);
+int apertei_mouse(int*x1,int*y1,int*x2,int*y2)
+{
+  install_mouse();
+
+  int retorno = 0;
+   ///Apertou jogar
+  if( mouse_x >=480 && mouse_x<=790 && mouse_y>=370 && mouse_y<=450 && mouse_b == 1)
+   { retorno = 1;*x1 = 480;*x2 = 790;*y1 = 370;*y2 = 450;}
+   ///Apertou Tutorial
+  else if( mouse_x >=480 && mouse_x<=790 && mouse_y>=500 && mouse_y<=570 && mouse_b == 1)
+  { retorno = 1;*x1 = 480;*x2 = 790;*y1 = 500;*y2 = 570;}
+   ///Apertou Exit
+  else if(mouse_x >=480 && mouse_x<=790 && mouse_y>=610 && mouse_y<=680 && mouse_b == 1)
+   { retorno = 1;*x1 = 480;*x2 = 790;*y1 = 610;*y2 = 680; fecha_programa();}
+   ///Highscores apertou
+  else if(mouse_x >=15 && mouse_x<=295 && mouse_y>=370 && mouse_y<=440 && mouse_b == 1)
+  { retorno = 1;*x1 = 15;*x2 = 295;*y1 = 370;*y2 = 440; }
+
+  ///Retorno fica 1 se apertou algum botao, senao volta 0
+ return retorno;
+}
+int main(){
+
+
+///Iniciar Allegro
+allegro_init();
+install_timer();
+install_keyboard();
+install_sound(DIGI_AUTODETECT,MIDI_AUTODETECT,NULL);
+set_color_depth(32);
+set_gfx_mode(GFX_AUTODETECT_WINDOWED,1280,720,0,0);
+set_window_title("Menu Coloridinho");
+set_close_button_callback(fecha_programa);
+sair_do_programa = 0;
+
+    ///Variaveis
+    int x1 = -1, x2 = -1, y1=-1, y2 = -1;
+
+    ///BITMAPS
+    BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
+    BITMAP* cursor = load_bitmap("cursor256.bmp", NULL);
+    BITMAP* fundo = load_bitmap("fundinho.bmp",NULL);
+    BITMAP* corpo = load_bitmap("corpo.bmp",NULL);
+    MIDI* musica1 = load_midi("zeldas2.mid");
+
+    ///Condicao de ficar aberto programa
+    while(!sair_do_programa)
+    {
+     if(key[KEY_ESC])
+     fecha_programa();
+
+     ///BITMAP
+     draw_sprite(buffer,fundo,-1,0);
+     draw_sprite(buffer,corpo,700,120);
+     draw_sprite(buffer,cursor,mouse_x,mouse_y);
+
+     ///Botoes pra apertar
+     if(apertei_mouse(&x1,&y1,&x2,&y2) == 1)
+     rect(buffer,x1,y1,x2,y2,makecol(255,255,255));
+
+     ///Botoes Teclado
+      if(key[KEY_Z])
+      play_midi(musica1,FALSE);
+      if(key[KEY_P])
+      stop_midi();
+
+     ///Desenho
+     draw_sprite(screen,buffer,0,0);
+     clear(buffer);
+    }
+
+    ///Finalizar
+    destroy_bitmap(buffer);
+    destroy_bitmap(corpo);
+    destroy_bitmap(fundo);
+    destroy_bitmap(cursor);
+    destroy_midi(musica1);
+
+return 0;
+}
+END_OF_MAIN()
