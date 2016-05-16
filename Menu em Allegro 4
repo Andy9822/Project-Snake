@@ -1,0 +1,112 @@
+#include <allegro.h>
+#include <unistd.h>
+volatile int sair_do_programa;
+void fecha_programa(){
+  sair_do_programa = 1;}
+END_OF_FUNCTION(fecha_programa)
+LOCK_FUNCTION(fecha_programa);
+LOCK_VARIABLE(sair_do_programa);
+
+volatile int temporizador;
+void incrementa_temporizador() { temporizador ++;  }
+END_OF_FUNCTION(incrementa_temporizador)
+
+
+int main(){
+
+allegro_init();
+install_timer();
+install_keyboard();
+install_mouse();
+set_color_depth(32);
+set_gfx_mode(GFX_AUTODETECT_WINDOWED,1280,720,0,0);
+set_window_title("Menu Coloridinho");
+set_close_button_callback(fecha_programa);
+sair_do_programa = 0;
+
+
+    ///Fontes
+    FONT* fontetimes = load_font("Times_New_bold0_16.pcx", NULL,NULL);
+    ///Variaveis
+    int resposta,i;
+    ///BITMAPS
+    BITMAP* buffer = create_bitmap(SCREEN_W,SCREEN_H);
+    BITMAP* cursor = load_bitmap("cursor256.bmp", NULL);
+    BITMAP* jogar = load_bitmap("jogar.bmp", NULL);
+    BITMAP* scores = load_bitmap("scores.bmp", NULL);
+    BITMAP* sair = load_bitmap("exit.bmp",NULL);
+    BITMAP* tutorial = load_bitmap("tutorial.bmp",NULL);
+    //BITMAP* fundo = load_bitmap("savana.bmp",NULL);
+    BITMAP* fundo = load_bitmap("fundinho.bmp",NULL);
+    BITMAP* corpo = load_bitmap("corpo.bmp",NULL);
+    BITMAP* titulo = load_bitmap("Titulo.bmp",NULL);
+    BITMAP* titulo2 = load_bitmap("eater.bmp",NULL);
+
+    ///LOOP
+    while(!sair_do_programa)
+    {
+
+     ///Metodo pra sair do loop
+     if(key[KEY_ESC])
+     fecha_programa();
+
+
+     ///Desenhos na tela
+
+     if( mouse_x >=470 && mouse_x<=770 && mouse_y>=303 && mouse_y<=380 && mouse_b == 1)
+     {rect(buffer,20,20,60,60,makecol(0,255,0));
+    // jogando();
+     }
+
+     if( mouse_x >=470 && mouse_x<=770 && mouse_y>=430 && mouse_y<=505 && mouse_b == 1)
+     {rect(buffer,40,200,60,60,makecol(255,0,0));
+     //mostra_tutorial();
+     }
+
+
+     if( mouse_x >=465 && mouse_x<=776 && mouse_y>=558 && mouse_y<=640 && mouse_b == 1)
+     {rect(buffer,80,80,160,160,makecol(20,20,255));
+     fecha_programa();
+     }
+
+     if( mouse_x >=80 && mouse_x<=380 && mouse_y>=550 && mouse_y<=628 && mouse_b == 1) // HIGHSCORES
+     {rect(buffer,20,80,160,160,makecol(255,20,255));
+     // mostrar_scores();
+     }
+
+     ///BITMAP
+     draw_sprite(buffer,fundo,-1,0);
+     draw_sprite(buffer,tutorial,470,430);
+     draw_sprite(buffer,jogar,470,300);
+     draw_sprite(buffer,scores,80,550);
+     draw_sprite(buffer,sair,470,560);
+     draw_sprite(buffer,titulo2,-2,0);
+     draw_sprite(buffer,titulo,390,10);
+     draw_sprite(buffer,corpo,680,120);
+
+     for(i=0;i<5;i++)
+     rect(buffer,0+i,0+i,1280-i,720-i,makecol(0,0,0));
+
+     draw_sprite(buffer,cursor,mouse_x,mouse_y);
+     draw_sprite(screen,buffer,0,0);
+     clear(buffer);
+    }
+
+    ///Finalizar
+    destroy_bitmap(buffer);
+    destroy_bitmap(cursor);
+    destroy_bitmap(sair);
+    destroy_bitmap(jogar);
+    destroy_bitmap(scores);
+    destroy_bitmap(fundo);
+    destroy_bitmap(corpo);
+    destroy_bitmap(titulo);
+    destroy_bitmap(titulo2);
+    destroy_bitmap(tutorial);
+    destroy_font(fontetimes);
+
+
+return 0;
+}
+
+END_OF_MAIN()
