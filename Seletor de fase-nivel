@@ -1,25 +1,29 @@
 #include <stdio.h>
 #include <string.h>
-/*void seletor_fase(FILE pMap,int n)
+FILE* seletor_fase(int n)
 {
+ FILE * arquivo;
   switch(n)
   {
     case 1:
-      pMap = fopen("mapa1.txt", "r");
+      arquivo = fopen("mapa1.txt", "r");
       break;
+
+    case 2:
+      arquivo = fopen("mapa2.txt", "r");
+      break;
+
+    case 3:
+      arquivo = fopen("mapa3.txt", "r");
+
   }
-}*/
+ return arquivo;
+}
 void cria_fase(int n)
 {
  FILE * PonteiroMapa;
- //seletor_fase(PonteiroMapa,n);
  int i=0, j = 0;
-  switch(n)
-  {
-    case 1:
-      PonteiroMapa = fopen("mapa1.txt", "r");
-      break;
-  }
+ PonteiroMapa = seletor_fase(n) ;
 
  if (PonteiroMapa == NULL)
     perror("Arquivo nao pode ser aberto");
@@ -35,7 +39,7 @@ void cria_fase(int n)
 
     while(!feof(PonteiroMapa))                   //Enquanto nao acabar o arquivo
      {
-      fgets(vetor,100,PonteiroMapa);
+      fgets(vetor,linhas*colunas,PonteiroMapa);
       for(j=0;j<colunas;j++)
          matriz[i][j] = vetor[j];
       i++;
@@ -56,4 +60,3 @@ int main ()
 
 return 0;
 }
-
