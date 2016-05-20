@@ -1,0 +1,35 @@
+#include <stdio.h>
+#include <string.h>
+int main()
+{
+ FILE * PonteiroMapa = fopen("mapa1.txt", "r");
+ int i=0, j = 0;
+
+ if (PonteiroMapa == NULL)
+    perror("Arquivo nao pode ser aberto");
+ else
+ {
+    int linhas, colunas;
+    fscanf(PonteiroMapa,"%d %d", &linhas, &colunas);
+
+    char  matriz[31][31], vetor[linhas*colunas];
+
+    printf("Linhas = %d Colunas = %d\n", linhas,colunas);
+
+    while(!feof(PonteiroMapa))                   //Enquanto nao acabar o arquivo
+     {
+      fgets(vetor,100,PonteiroMapa);
+      for(j=0;j<10;j++)
+         matriz[i][j] = vetor[j];
+      i++;
+     }
+
+    for(i=1;i<=linhas;i++)                //Começa pela linha 1 pois a 0 contem lixo / resto da linha onde tem numero de linhas e colunas
+     { for(j=0;j<colunas;j++)
+         printf("%c ",matriz[i][j]);
+         printf("\n");
+     }
+ }
+fclose(PonteiroMapa);
+return 0;
+}
