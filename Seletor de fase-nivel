@@ -26,39 +26,19 @@ void cria_fase(int n,char matriz[31][31],int*linhas, int*colunas)
  int i=0, j = 0;
  PonteiroMapa = seletor_fase(n) ;
 
-
  if (PonteiroMapa == NULL)
     perror("Arquivo nao pode ser aberto");
 
-
  else
  {
+    ///Declaracao variaveis
     fscanf(PonteiroMapa,"%d %d", linhas, colunas);
 
-    char vetor[(*linhas)*(*colunas)];
-
+    ///Leitura do arquivo enquanto nao acabar
     while(!feof(PonteiroMapa))                   //Enquanto nao acabar o arquivo
      {
-      fgets(vetor,((*linhas)*(*colunas)),PonteiroMapa);
-      for(j=0;j<*colunas;j++)
-         matriz[i][j] = vetor[j];
+      fgets(matriz[i],*colunas + 2,PonteiroMapa);
       i++;
-     }
-
-/*    while(!feof(PonteiroMapa))                   //Enquanto nao acabar o arquivo
-     {
-      if(fgetc(PonteiroMapa) == '\n')
-       i++;
-       else
-        for(j=0;j<*colunas;j++)
-        matriz[i][j] = fgetc(PonteiroMapa);
-     }*/
-
-printf("Matriz preenchida boy\n");
-    for(i=1;i<=*linhas;i++)                //Começa pela linha 1 pois a 0 contem lixo / resto da linha onde tem numero de linhas e colunas
-     { for(j=0;j<*colunas;j++)
-         printf("%c ",matriz[i][j]);
-         printf("\n");
      }
 
  }
