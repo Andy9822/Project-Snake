@@ -36,7 +36,7 @@ void cria_fase(int n)
     while(!feof(PonteiroMapa))                   //Enquanto nao acabar o arquivo
      {
       fgets(vetor,100,PonteiroMapa);
-      for(j=0;j<10;j++)
+      for(j=0;j<colunas;j++)
          matriz[i][j] = vetor[j];
       i++;
      }
