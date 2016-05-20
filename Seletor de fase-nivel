@@ -1,12 +1,29 @@
 #include <stdio.h>
 #include <string.h>
-int main()
+/*void seletor_fase(FILE pMap,int n)
 {
- FILE * PonteiroMapa = fopen("mapa1.txt", "r");
+  switch(n)
+  {
+    case 1:
+      pMap = fopen("mapa1.txt", "r");
+      break;
+  }
+}*/
+void cria_fase(int n)
+{
+ FILE * PonteiroMapa;
+ //seletor_fase(PonteiroMapa,n);
  int i=0, j = 0;
+  switch(n)
+  {
+    case 1:
+      PonteiroMapa = fopen("mapa1.txt", "r");
+      break;
+  }
 
  if (PonteiroMapa == NULL)
     perror("Arquivo nao pode ser aberto");
+
  else
  {
     int linhas, colunas;
@@ -31,5 +48,12 @@ int main()
      }
  }
 fclose(PonteiroMapa);
+}
+int main ()
+{
+  int n = 1;
+  cria_fase(n);
+
 return 0;
 }
+
