@@ -1,63 +1,55 @@
-#include <stdio.h>
-#include <string.h>
-FILE* seletor_fase(int n)
+///Dependendo do nivel, carrega o mapa correspondente desde o arquivo de texto
+FILE * seletor_fase(int n)
 {
- FILE * arquivo;
-  switch(n)
-  {
+    FILE * arquivo;
+    switch(n)
+    {
     case 1:
-      arquivo = fopen("mapa1.txt", "r");
-      break;
+        arquivo = fopen("mapa1.txt", "r");
+        textcolor(11);
+        break;
 
     case 2:
-      arquivo = fopen("mapa2.txt", "r");
-      break;
+        arquivo = fopen("mapa2.txt", "r");
+        break;
 
     case 3:
-      arquivo = fopen("mapa3.txt", "r");
+        arquivo = fopen("mapa3.txt", "r");
 
-  }
- return arquivo;
+    }
+    return arquivo;
 }
+
+///Preenche a matriz conforme o arquivo de texto que receber relativo ao mapa
 void cria_fase(int n,char matriz[31][31],int*linhas, int*colunas)
 {
 
- FILE * PonteiroMapa;
- int i=0, j = 0;
- PonteiroMapa = seletor_fase(n) ;
+    FILE * PonteiroMapa;
+    int i=0, j = 0;
+    PonteiroMapa = seletor_fase(n) ;
 
- if (PonteiroMapa == NULL)
-    perror("Arquivo nao pode ser aberto");
+    if (PonteiroMapa == NULL)
+        perror("Arquivo nao pode ser aberto");
 
- else
- {
-    ///Declaracao variaveis
-    fscanf(PonteiroMapa,"%d %d", linhas, colunas);
+    else
+    {
+        ///Declaracao variaveis
+        fscanf(PonteiroMapa,"%d %d", linhas, colunas);
 
-    ///Leitura do arquivo enquanto nao acabar
-    while(!feof(PonteiroMapa))                   //Enquanto nao acabar o arquivo
-     {
-      fgets(matriz[i],*colunas + 2,PonteiroMapa);
-      i++;
-     }
+        ///Leitura do arquivo enquanto nao acabar
+        while(!feof(PonteiroMapa))
+        {
+            fgets(matriz[i],*colunas + 2,PonteiroMapa);
+            i++;
+            if(j==0)
+            {
+                j++;
+                i--;
+            }
 
- }
-fclose(PonteiroMapa);
+        }
+
+    }
+    fclose(PonteiroMapa);
 }
-int main ()
-{
-  int n = 1, linhas, colunas, i,j;
-  char matriz[31][31];
 
-  cria_fase(n,matriz,&linhas,&colunas);
-
- for(i=1;i<=linhas;i++)                //Começa pela linha 1 pois a 0 contem lixo / resto da linha onde tem numero de linhas e colunas
-     { for(j=0;j<colunas;j++)
-         printf("%c ",matriz[i][j]);
-         printf("\n");
-     }
-
- printf("Linhas = %d Colunas = %d\n", linhas,colunas);
-
-return 0;
-}
