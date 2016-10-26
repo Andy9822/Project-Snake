@@ -1,0 +1,175 @@
+#include "moviment.h"
+#include <stdlib.h>
+
+///Testa condições para aparecimento da maçã e posição apropriada para o spawn
+void surge_apple(int size_snake,int posicao[2][MAXSNAKE],char matriz[LINMAX][COLMAX],int NColunasMax,int NLinhasMax,
+                 TIPO_OBJETO pedra[],TIPO_OBJETO ratos[],int ratos_surgidos,int nivel,TIPO_OBJETO * apple,int nPedras)
+{
+    if(size_snake >= (2 + 7*nivel) && apple->onscreen==0 )   ///Se cobra tiver um tamanho minimo e maçã nao tiver surgido ainda
+    {
+        srand( (unsigned)time(NULL) );
+        int saida= 0;
+
+        while(saida==0)
+        {
+            apple->x = 0 + ( rand() % (NColunasMax - 1  + 1) );
+            apple->y = 0 + ( rand() % (NLinhasMax - 1  + 1) );
+
+            if( !in_snake(posicao,*apple,size_snake) && !in_objeto(pedra,nPedras,*apple) && !in_objeto(ratos,ratos_surgidos,*apple) &&(matriz[apple->y][apple->x] != '#'))
+                saida = 1;              ///Testa posiçoes randomicas para surgir maçã que nao vá se sobrepor a algum objeto (pedra/parede/cobra)
+        }
+        apple->onscreen = 1;
+        imprime_objeto((*apple).x,(*apple).y, '@');
+
+    }
+
+}
+
+///Dependendo do nivel, ira gerar X camundongos e salva esse numero
+void Nratos_atual(int nivel,Tipo_Cont * contador)
+{
+    switch(nivel)
+    {
+    case 1:
+        contador->n_ratos = RATOSL1;
+        break;
+    case 2 :
+        contador->n_ratos = RATOSL2;
+        break;
+    }
+
+
+}
+
+/// Reprinta as pedras para evitar elas sumirem caso cobra passe por cima
+void redesenha_pedras(TIPO_OBJETO pedra[ROCKSMAX], int npedras)
+{
+    int i;
+    for(i=0; i<npedras; i++)
+    {
+        goutoxy(pedra[i].x + KX, pedra[i].y  + KY);
+        textcolor(11);
+        printf("*");
+    }
+}
+
+///Devolve o numero de vezes que aparece tal caractere que representa um objeto/coisa
+int conta_objetos(char matriz[LINMAX][COLMAX], int linhas, int colunas,char objeto)
+{
+    int aparece = 0, i,j;
+
+    for(i=0; i<linhas; i++)
+    {
+        for(j=0; j<colunas; j++)
+        {
+            if(matriz[i][j] == objeto)
+                aparece++;
+        }
+
+    }
+
+    return aparece;
+
+}
+
+///Dados um caractere, toda vez que achá-lo no mapa da fase guardará as coordenadas no vetor de estruturas de coordenadas
+void inicia_objeto(char matriz[LINMAX][COLMAX], int linhas, int colunas,TIPO_OBJETO objeto[],char caractere_objeto)
+{
+
+    int i=0,j=0,cont=0;
+    for(i=0; i<linhas; i++)
+    {
+        for(j=0; j<colunas; j++)
+            if(matriz[i][j] == caractere_objeto)
+            {
+                objeto[cont].x = j;
+                objeto[cont].y = i;
+                cont++;
+            }
+
+    }
+
+}
+
+///Gera camundongos
+void gera_rato(int posicao[2][MAXSNAKE], int NLinhasMax, int NColunasMax, TIPO_OBJETO * ratos,
+               int size_snake,TIPO_OBJETO pedras[],int nPedras, char matriz[LINMAX][COLMAX],TIPO_OBJETO * apple)
+{
+    srand( (unsigned)time(NULL) );
+    int saida= 0;
+
+    while(saida==0)
+    {
+        ratos->x = 0 + ( rand() % (NColunasMax - 1  + 1) );
+        ratos->y = 0 + ( rand() % (NLinhasMax - 1  + 1) );
+
+        if( !in_snake(posicao,*ratos,size_snake) && !in_objeto(pedras,nPedras,*ratos) && !in_objeto(apple,1,*ratos) && (matriz[ratos->y][ratos->x] != '#'))
+            saida = 1;          ///Testa se a posição randomica do camundongo a surgir não é também a coordenada de algum outro objeto / posição da cobra
+    }
+    ratos->onscreen=1;
+    imprime_objeto((*ratos).x,(*ratos).y, '$');
+
+}
+
+///Coloca snake no lugar onde o mapa indica que ela inicia
+void new_snake(int posicao[2][MAXSNAKE], char matriz[LINMAX][COLMAX], int linhas, int colunas)
+{
+    int i=0,j=0, saida = 0;
+    while(!saida)
+    {
+
+        if(matriz[i][j] == 'O')
+        {
+            saida = 1;
+            posicao[1][0] = i;
+            posicao[0][0] = j;
+        }
+        else if(j == (colunas -1) )
+        {
+            i++;
+            j=0;
+        }
+        else
+            j++;
+    }
+
+    posicao[1][1] = posicao[1][0];
+    posicao[0][1] = posicao[1][0] - 1;
+
+}
+
+///Preenche a matriz conforme o arquivo de texto que receber relativo ao mapa
+void cria_fase(int n,char matriz[LINMAX][COLMAX],int*linhas, int*colunas)
+{
+
+
+    ///Declaracao variaveis
+    FILE * PonteiroMapa;
+    int i=0, j = 0;
+    PonteiroMapa = seletor_fase(n) ;
+
+    if(!PonteiroMapa)
+    {
+        system("cls");
+        perror("Erro ao abrir mapa\n");
+        exit(0);
+    }
+    else
+    {
+        fscanf(PonteiroMapa,"%d %d", linhas, colunas);
+
+        ///Leitura do arquivo enquanto nao acabar
+        while(!feof(PonteiroMapa))
+        {
+            fgets(matriz[i],*colunas + 2,PonteiroMapa);
+            i++;
+            if(j==0)
+            {
+                j++;
+                i--;
+            }
+
+        }
+    }
+    fclose(PonteiroMapa);
+}
