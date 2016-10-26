@@ -1,0 +1,44 @@
+#ifndef GENERATE_H_INCLUDED
+#define GENERATE_H_INCLUDED
+#include "moviment.h"
+#define KX 45
+#define KY 5
+
+typedef struct str_objeto
+{
+    int x;
+    int y;
+    int onscreen;
+}TIPO_OBJETO;
+
+typedef struct str_numeric
+{
+    int movimentos;
+    int rato_a_deletar;
+    int ratos_surgidos;
+    int n_ratos;
+    int ratos_comidos;
+}Tipo_Cont;
+
+void surge_apple(int size_snake,int posicao[2][MAXSNAKE],char matriz[LINMAX][COLMAX],int NColunasMax,int NLinhasMax,
+                 TIPO_OBJETO pedra[],TIPO_OBJETO ratos[],int ratos_surgidos,int nivel,TIPO_OBJETO * apple,int nPedras);
+
+void Nratos_atual(int nivel,Tipo_Cont * contador);
+
+void redesenha_pedras(TIPO_OBJETO pedra[ROCKSMAX], int npedras);
+
+int conta_objetos(char matriz[LINMAX][COLMAX], int linhas, int colunas,char objeto);
+
+void inicia_objeto(char matriz[LINMAX][COLMAX], int linhas, int colunas,TIPO_OBJETO  pedra[ROCKSMAX],char caractere_objeto);
+
+void new_snake(int posicao[2][MAXSNAKE], char matriz[LINMAX][COLMAX], int linhas, int colunas);
+
+void cria_fase(int n,char matriz[LINMAX][COLMAX],int*linhas, int*colunas);
+
+void gera_rato(int posicao[2][MAXSNAKE], int NLinhasMax, int NColunasMax,TIPO_OBJETO * ratos,
+                int size_snake,TIPO_OBJETO pedras[],int nPedras, char matriz[LINMAX][COLMAX],TIPO_OBJETO * apple);
+
+
+
+
+#endif // GENERATE_H_INCLUDED
