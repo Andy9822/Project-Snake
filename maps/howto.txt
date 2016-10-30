@@ -1,0 +1,17 @@
+
+		*Use as setas direcionas ou WASD para movimentar a cobra
+	*A cobra ira para uma mesma direção sozinha ate você apertar uma tecla de outra direção.		
+	*Se você se chocar contra uma parede(#) , você morrerá automaticamente, perderá 1 vida (começa com 3) e reiniciará o nivel
+	  *Você pode apertar P para pausar o jogo / retomar a jogatina e Q ou ESC para sair do jogo a qualquer momento!
+         _   _	  *Após comer muitos camundongo e ser gigante, surgirá uma maçã (@) e se você a comer, passará de fase!  
+        (q\_/p)    *Quando você comer um camundongo ( $ ) você ganhará pontos e a cobra aumentará seu tamanho!. 	
+         /. .\      *Se você chocar contra uma parede (*) a cobra diminuirá o tamanho 												
+   __   =\_t_/=      *Caso você comer a maçã do ultimo nivel ou ficar sem vidas, seus pontos serão salvos caso você esteja entre os 15 melhores jogadores de snake!  
+     )   /   \    
+    (   ((   ))   *Os camundongos gostam de dormir, então             .:'
+     \  /\) (/\    coma a quantidade necessária para crescer    __ :'__
+      `-\  Y  /     logo para  maçã surgir,pois eles vao ir  .'`__`-'__``.   
+         nn^nn      decansar e uma hora você nao terá mais  :__________.-'		     	        
+	           como passar de fase :(		    :_________:
+ 	       				                     :_________`-;
+					                      `.__.-.__.'	Pressione qualquer tecla para sair... -->
